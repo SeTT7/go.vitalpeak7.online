@@ -118,33 +118,49 @@
         <span class="quote-author">– Michel S.</span>
     </p>
     
-    <div class="cta-button-container"> 
-        <a href="#" id="verification-cta-button" class="primary-button">
-            REGARDER MAINTENANT
-        </a>
-    </div>
-</main>
+        <div class="cta-button-container"> 
+            <a href="https://go.vitalpeak7.online/pvfr" id="verification-cta-button" class="primary-button">
+                VISIONNER LA VIDÉO
+            </a>
+        </div>
+    </main>
 
-<script>
-document.getElementById("verification-cta-button")
-  .addEventListener("click", async function(e) {
+    <!-- Scripts carregados ao final para melhor performance -->
+    <script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-subids async defer></script>
+    
+    <script>
+        // Inicialização quando o DOM estiver carregado
+        document.addEventListener("DOMContentLoaded", function() {
+            // Função para capturar parâmetros da URL
+            function collectUrlParameters(url) {
+                const urlObj = new URL(url);
+                let paramString = "";
 
-    e.preventDefault();
+                urlObj.searchParams.forEach((value, key) => {
+                    paramString += `${paramString ? '&' : ''}${key}=${value}`;
+                });
 
-    const currentParams = window.location.search;
+                return paramString;
+            }
 
-    const response = await fetch(
-      "https://fra64franca.endersonset11.workers.dev/",
-      { method: "POST" }
-    );
+            // Aplicar parâmetros da URL a todos os links
+            const urlParams = collectUrlParameters(window.location.href);
 
-    if (response.redirected) {
-      window.location.href = response.url + currentParams;
-    }
-});
-</script>
-
-<script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-subids async defer></script>
+            if (urlParams) {
+                document.querySelectorAll("a").forEach(link => {
+                    const separator = link.href.includes("?") ? "&" : "?";
+                    link.href += `${separator}${urlParams}`;
+                });
+            }
+            
+            // Rastreamento de eventos para analytics
+            document.getElementById('verification-cta-button').addEventListener('click', function() {
+                if (typeof ttq !== 'undefined') {
+                    ttq.track('ClickButton', {});
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
